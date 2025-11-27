@@ -59,11 +59,3 @@ double rad2dms(double rad)
     double sec=((degree-deg)*60-min)*60;
     return deg+min/100+sec/10000;
 }
-
-template<typename T>
-T clamp(T val, T lo, T hi)
-{
-    if(val < lo) return lo;
-    if(val > hi) return hi;
-    return val;
-}

@@ -21,4 +21,9 @@ double sec_abs(double sec);
 double rad2dms(double rad);
 
 template<typename T>
-T clamp(T val, T lo, T hi);
+T clamp(T val, T lo, T hi)
+{
+    if(val < lo) return lo;
+    if(val > hi) return hi;
+    return val;
+}

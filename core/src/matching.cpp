@@ -36,8 +36,12 @@ void matching::set_centers(int left_x, int left_y, int right_x, int right_y)
 
 void matching::disp_windows()
 {
-    cv::imshow("Left",left_window);
-    cv::imshow("Right",right_window);
+    cv::Mat left_win_show;
+    cv::Mat right_win_show;
+    cv::normalize(left_window, left_win_show, 0, 1, cv::NORM_MINMAX);
+    cv::normalize(right_window, right_win_show, 0, 1, cv::NORM_MINMAX);
+    cv::imshow("Left",left_win_show);
+    cv::imshow("Right",right_win_show);
     cv::waitKey(0);
 }
 
@@ -172,4 +176,122 @@ void matching::construct_matrices()
             pix_counter++;
         }
     }
+}
+
+void matching::adjustment()
+{
+    x = (B.trans()*B).inv()*B.trans()*L;
+}
+
+void matching::update()
+{
+    double dh0 = x.getMatrix_ele(0,0);
+    double dh1 = x.getMatrix_ele(1,0);
+    double da0 = x.getMatrix_ele(2,0);
+    double da1 = x.getMatrix_ele(3,0);
+    double da2 = x.getMatrix_ele(4,0);
+    double db0 = x.getMatrix_ele(5,0);
+    double db1 = x.getMatrix_ele(6,0);
+    double db2 = x.getMatrix_ele(7,0);
+
+    double h0 = X.getMatrix_ele(0,0);
+    double h1 = X.getMatrix_ele(1,0);
+    double a0 = X.getMatrix_ele(2,0);
+    double a1 = X.getMatrix_ele(3,0);
+    double a2 = X.getMatrix_ele(4,0);
+    double b0 = X.getMatrix_ele(5,0);
+    double b1 = X.getMatrix_ele(6,0);
+    double b2 = X.getMatrix_ele(7,0);
+
+    double new_h0 = h0 + dh0 + h0*dh1;
+    double new_h1 = h1 + h1*dh1;
+    double new_a0 = a0 + da0 + a0*da1 + b0*da2;
+    double new_a1 = a1 + a1*da1 + b1*da2;
+    double new_a2 = a2 + a2*da1 + b2*da2;
+    double new_b0 = b0 + db0 + a0*db1 + b0*db2;
+    double new_b1 = b1 + a1*db1 + b1*db2;
+    double new_b2 = b2 + a2*db1 + b2*db2;
+
+    X.SetMatrix_ele(0,0,new_h0);
+    X.SetMatrix_ele(1,0,new_h1);
+    X.SetMatrix_ele(2,0,new_a0);
+    X.SetMatrix_ele(3,0,new_a1);
+    X.SetMatrix_ele(4,0,new_a2);
+    X.SetMatrix_ele(5,0,new_b0);
+    X.SetMatrix_ele(6,0,new_b1);
+    X.SetMatrix_ele(7,0,new_b2);
+}
+
+void matching::get_corr()
+{
+    double left_mean = 0;
+    double right_mean = 0;
+    int N = window_size*window_size;
+    for(int i=0;i<window_size;i++)
+    {
+        for(int j=0;j<window_size;j++)
+        {
+            left_mean += left_window.at<float>(j,i);
+            right_mean += right_window.at<float>(j,i);
+        }
+    }
+    left_mean /= N;
+    right_mean /= N;
+
+    double L_R_var = 0;
+    double L_var = 0;
+    double R_var = 0;
+    for (int i = 0; i < window_size; i++)
+    {
+        for (int j = 0; j < window_size; j++)
+        {
+            double dL = left_window.at<float>(j,i)-left_mean;
+            double dR = right_window.at<float>(j,i)-right_mean;
+            L_R_var += dL*dR;
+            L_var += dL*dL;
+            R_var += dR*dR;
+        }
+    }
+    double result = L_R_var/std::sqrt(L_var*R_var);
+    if(first == 1)
+    {
+        corr = result;
+        first = 0;
+    }
+    else
+    {
+        d_corr = result - corr;
+        corr = result;
+    }
+}
+
+void matching::calculate()
+{
+    params_init();
+    while(1)
+    {
+        get_g2();
+        radioCorrection();
+        if(first == 1)
+        {
+            get_corr();
+        }
+        else
+        {
+            get_corr();
+            if(dabs(d_corr)<0.15)
+            {
+                stop = 1;
+            }
+        }
+        get_dg();
+        construct_matrices();
+        adjustment();
+        update();
+        if(stop == 1)
+        {
+            break;
+        }
+    }
+    X.print();
 }

@@ -21,6 +21,11 @@ class matching
     cv::Mat g2;
     cv::Mat g2_dx, g2_dy;
 
+    double corr;
+    double d_corr;
+    bool first = 1;
+    bool stop = 0;
+
     public:
     matching(std::string left_path, std::string right_path);
     void set_params(int window_size);
@@ -32,4 +37,8 @@ class matching
     void radioCorrection();
     void get_dg(); //对g2求导
     void construct_matrices(); //构造系数矩阵
+    void adjustment();
+    void update();
+    void get_corr();
+    void calculate();
 };
