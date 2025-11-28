@@ -2,3 +2,6 @@ build/
 pycache/
 .vscode/
 out/
+*.egg-info/
+_skbuild/
+*.whl
