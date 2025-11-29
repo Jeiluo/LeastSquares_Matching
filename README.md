@@ -29,6 +29,25 @@ The output is from the main function in `core\src\test.cpp`
 ### Windows
 You also need MinGW-w64 and CMake. Install them as mentioned above!<br><br>
 **1. Install the Requirement Packages for Python**<br>
+In the project directory, run<br>
+```
+conda create -n matching python=3.11
+conda activate matching
+pip install -r requirements.txt
+```
+<br>
 
-python setup.py bdist_wheel<br>
+**2. Build the C++ Source for Application**<br>
+```
+cd python
+python setup.py bdist_wheel
 pip install dist\lsmatching-0.0.1-cp311-cp311-win_amd64.whl
+cd ..
+```
+Then the install of C++ Source of Least-Square Matching is done.<br><br>
+
+**3. Use the Application in Python**<br>
+run
+```
+python main.py
+```
