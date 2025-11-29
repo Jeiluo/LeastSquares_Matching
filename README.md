@@ -35,7 +35,6 @@ conda create -n matching python=3.11
 conda activate matching
 pip install -r requirements.txt
 ```
-<br>
 
 **2. Build the C++ Source for Application**<br>
 ```
@@ -45,7 +44,6 @@ pip install dist\lsmatching-0.0.1-cp311-cp311-win_amd64.whl
 cd ..
 ```
 Then the install of C++ Source of Least-Square Matching is done.<br><br>
-
 **3. Use the Application in Python**<br>
 run
 ```
