@@ -13,7 +13,7 @@ In CMD, enter `gcc -v` and `g++ -v`.
 **2. Install CMake for Windows**<br>
 Get the CMake installer for Windows [here](https://github.com/Kitware/CMake/releases/download/v4.2.0/cmake-4.2.0-windows-x86_64.msi) and install it under its guidance.<br>
 You also need to make sure its path `Cmake\bin` is a member of the environment variables. Like ![CMake.PNG](./resources/CMake.PNG)<br>
-In CMD, enter `cmake --version`, if you get the version of CMake, the installation is finished.<br>
+In CMD, enter `cmake --version`, if you get the version of CMake, the installation is finished.<br><br>
 **3. Build for the Code**<br>
 In the project directory, run the following commands:<br>
 1. mkdir build<br>
