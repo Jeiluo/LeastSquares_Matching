@@ -15,6 +15,8 @@ pybind11_add_module(_lsmatching
     ../core/src/matching.cpp
     ../core/src/matrix.cpp
     ../core/src/tools.cpp
+    ../core/src/Correlation.cpp
+    ../core/src/Extract.cpp
 )
 
 target_include_directories(_lsmatching PRIVATE

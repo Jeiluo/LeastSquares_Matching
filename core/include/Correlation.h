@@ -3,12 +3,10 @@
 //git@github:Jeiluo
 #pragma once
 
-#include "PointExtract.h"
 #include <iostream>	
-#include <filesystem>
 #include <math.h>
-#include<vector>
-#include <opencv2/opencv.hpp>
+#include <vector>
+#include "opencv2/opencv.hpp"
 using namespace cv;
 
 class CorrelationMatch {
@@ -21,5 +19,5 @@ public:
 
 	cv::Mat matOperator(char op, cv::Mat&);
 	void saveResult(const std::string& savepath);
-	void Calculate();
+	void Calculate(cv::Mat& LefImg, cv::Mat& RigImg);
 };

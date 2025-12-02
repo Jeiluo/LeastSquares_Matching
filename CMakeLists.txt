@@ -56,6 +56,8 @@ add_executable(leastsquares_matching
     core/src/test.cpp
     core/src/matrix.cpp
     core/src/tools.cpp
+    core/src/Correlation.cpp
+    core/src/Extract.cpp
 )
 
 target_link_libraries(leastsquares_matching PRIVATE ${OpenCV_LIBS})

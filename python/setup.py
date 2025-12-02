@@ -41,6 +41,9 @@ def find_dll(name):
         if os.path.exists(candidate):
             return candidate
 
+target_dir = os.path.join("_skbuild\\win-amd64-3.11\\cmake-install\\lsmatching")
+os.makedirs(target_dir, exist_ok=True)
+
 # 拷贝所有 DLL 到 lsmatching 包目录
 copied_dlls = []
 for dll in dll_names:

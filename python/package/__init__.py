@@ -19,3 +19,6 @@ class Matching:
     
     def get_right_window(self) -> np.ndarray:
         return self.matching.get_right_window()
+    
+    def get_matched_points(self, savepath: str):
+        self.matching.get_matched_points(savepath)

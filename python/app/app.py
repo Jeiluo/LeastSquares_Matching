@@ -26,6 +26,7 @@ class matching_app:
         self.ui.left_btn.clicked.connect(self.get_left_image)
         self.ui.right_btn.clicked.connect(self.get_right_image)
         self.ui.choose_btn.clicked.connect(self.choose_cal)
+        self.ui.matching_btn.clicked.connect(self.matching_cal)
 
     def set_directory(self):
         folder = QFileDialog.getExistingDirectory(self.ui, "选择工作空间")
@@ -80,6 +81,10 @@ class matching_app:
         self.ui.right_window_origin.set_image(right_window)
         self.ui.left_window.set_image(left_window_matched)
         self.ui.right_window.set_image(right_window_matched)
+
+    def matching_cal(self):
+        matching = Matching(self.left_img_path, self.right_img_path)
+        matching.get_matched_points(self.working_directory)
     
     def run(self):
         sys.exit(self.app.exec_())

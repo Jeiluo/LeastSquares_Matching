@@ -58,5 +58,6 @@ PYBIND11_MODULE(_lsmatching, m)
         .def("get_right_window", [](matching &self) {
             return mat_to_numpy(self.get_right_window());
             })
+        .def("get_matched_points", &matching::get_matched_points);
         ;
 }

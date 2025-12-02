@@ -3,10 +3,13 @@
 //git@github:Jeiluo
 
 #include "Correlation.h"
+#include "Extract.h"
+#include <fstream>
 
 const double NCC_THRESHOLD = 0.7;
 const int WINDOWSIZE = 3;
 const int SEARCHSIZE = 520;
+const char POINTFEATUREMETHOD = 'M';
 
 cv::Mat CorrelationMatch::matOperator(char op, cv::Mat& img) {
 	PointFeature pf;
@@ -18,12 +21,12 @@ cv::Mat CorrelationMatch::matOperator(char op, cv::Mat& img) {
 	}
 }
 
-void CorrelationMatch::Calculate(cv::Mat& LefImg,cv::Mat& RigImg) {
+void CorrelationMatch::Calculate(cv::Mat& LefImg, cv::Mat& RigImg) {
 	Mat LefPoint = matOperator(POINTFEATUREMETHOD, LefImg);
 
-	for (int i = WINDOWSIZE / 2; i < row - WINDOWSIZE / 2; i++) {
+	for (int i = WINDOWSIZE / 2; i < LefImg.rows - WINDOWSIZE / 2; i++) {
 		double* rowPtr = LefPoint.ptr<double>(i);
-		for (int j = WINDOWSIZE / 2; j < col - WINDOWSIZE / 2; j++)
+		for (int j = WINDOWSIZE / 2; j < LefImg.cols - WINDOWSIZE / 2; j++)
 			if (rowPtr[j]) {
 				Rect leftRect(j - WINDOWSIZE / 2, i - WINDOWSIZE / 2, WINDOWSIZE, WINDOWSIZE);
 				Mat leftWindow = LefImg(leftRect);
@@ -60,7 +63,7 @@ void CorrelationMatch::Calculate(cv::Mat& LefImg,cv::Mat& RigImg) {
 				}
 				if (NCC > NCC_THRESHOLD) {
 					Point pt1(j, i);
-					Point pt2(count, i + row);
+					Point pt2(count, i + LefImg.rows);
 					Point pt3(count, i);
 					LeftSame.push_back(pt1);
 					RigSame.push_back(pt3);
@@ -70,16 +73,17 @@ void CorrelationMatch::Calculate(cv::Mat& LefImg,cv::Mat& RigImg) {
 }
 
 void CorrelationMatch::saveResult(const std::string& savepath) {
-	std::filesystem::path basePath(savepath);
+    std::string leftFilePath = savepath + "/Left_result.dat";
+    std::string rightFilePath = savepath + "/Right_result.dat";
 
-	std::ofstream outfileLeft(basePath / "Left_result.dat", std::ios::app);
-	std::ofstream outfileRight(basePath / "Right_result.dat", std::ios::app);
+    std::ofstream outfileLeft(leftFilePath, std::ios::app);
+    std::ofstream outfileRight(rightFilePath, std::ios::app);
 
-	for (const Point& ptL : LeftSame) {
-		outfileLeft << ptL.x << '\t' << ptL.y << std::endl;
-	}
+    for (const Point& ptL : LeftSame) {
+        outfileLeft << ptL.x << '\t' << ptL.y << std::endl;
+    }
 
-	for (const Point& ptR : RigSame) {
-		outfileRight << ptR.x << '\t' << ptR.y << std::endl;
-	}
+    for (const Point& ptR : RigSame) {
+        outfileRight << ptR.x << '\t' << ptR.y << std::endl;
+    }
 }

@@ -58,4 +58,7 @@ class matching
     cv::Mat get_left_window();
     cv::Mat get_right_window();
     void get_result();
+    void get_matched_points(std::string savepath);
+    double get_matched_y();
+    double get_matched_x();
 };

@@ -83,9 +83,11 @@ class Window_Label(QLabel):
         
         # 将 QImage 转换为 QPixmap
         self.pixmap_item = QPixmap.fromImage(qimage)
+
+        scaled_pixmap = self.pixmap_item.scaled(self.size(), Qt.KeepAspectRatioByExpanding, Qt.SmoothTransformation)
         
         # 设置 QLabel 显示图像
-        self.setPixmap(self.pixmap_item)
+        self.setPixmap(scaled_pixmap)
 
     def contextMenuEvent(self, event):
         if self.pixmap_item:

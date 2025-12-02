@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import QMainWindow, QPushButton, QLabel, QWidget, QVBoxLayout, QDesktopWidget, QHBoxLayout, QSizePolicy, QLineEdit, QGridLayout
+from PyQt5.QtWidgets import QMainWindow, QPushButton, QLabel, QWidget, QVBoxLayout, QDesktopWidget, QHBoxLayout, QSizePolicy, QLineEdit, QGridLayout, QSpacerItem
 from PyQt5.QtCore import Qt
 from python.app.ImageLabel import ClickableImageLabel, Window_Label
 
@@ -113,6 +113,11 @@ class Matching_ui(QMainWindow):
         row_layout.addWidget(self.windowsize_label2)
         row_layout.addWidget(self.windowsize_line_edit2, 1)
         matching_layout.addLayout(row_layout)
+
+        self.matching_btn = QPushButton("平差计算")
+        matching_layout.addWidget(self.matching_btn, alignment= Qt.AlignHCenter)
+        self.output_btn = QPushButton("导出平差结果")
+        matching_layout.addWidget(self.output_btn, alignment= Qt.AlignHCenter)
         
         wrapper = QWidget()
         wrapper_layout = QVBoxLayout()
@@ -126,7 +131,6 @@ class Matching_ui(QMainWindow):
         wrapper_layout.addWidget(self.matching_widget, alignment = Qt.AlignHCenter)
 
         self.result_widget = QWidget(self)
-        self.result_widget.setStyleSheet("border: 3px solid red;")
         self.result_widget.raise_()
         result_layout = QGridLayout()
         self.result_widget.setLayout(result_layout)
@@ -141,15 +145,20 @@ class Matching_ui(QMainWindow):
         self.right_window_label = QLabel("右窗口纠正图")
         self.right_window = Window_Label()
 
-        result_layout.addWidget(self.left_window_origin_label, 0, 0)
-        result_layout.addWidget(self.left_window_origin, 1, 0)
-        result_layout.addWidget(self.right_window_origin_label, 0, 1)
-        result_layout.addWidget(self.right_window_origin, 1, 1)
+        result_layout.addWidget(self.left_window_origin_label, 0, 0, alignment=Qt.AlignCenter)
+        result_layout.addWidget(self.left_window_origin, 1, 0, alignment=Qt.AlignCenter)
+        result_layout.addWidget(self.right_window_origin_label, 0, 1, alignment=Qt.AlignCenter)
+        result_layout.addWidget(self.right_window_origin, 1, 1, alignment=Qt.AlignCenter)
 
-        result_layout.addWidget(self.left_window_label, 2, 0)
-        result_layout.addWidget(self.left_window, 3, 0)
-        result_layout.addWidget(self.right_window_label, 2, 1)
-        result_layout.addWidget(self.right_window, 3, 1)
+        self.blankwidget1 = QWidget()
+        result_layout.addWidget(self.blankwidget1, 2, 0, alignment=Qt.AlignCenter)
+        self.blankwidget2 = QWidget()
+        result_layout.addWidget(self.blankwidget2, 2, 1, alignment=Qt.AlignCenter)
+
+        result_layout.addWidget(self.left_window_label, 3, 0, alignment=Qt.AlignCenter)
+        result_layout.addWidget(self.left_window, 4, 0, alignment=Qt.AlignCenter)
+        result_layout.addWidget(self.right_window_label, 3, 1, alignment=Qt.AlignCenter)
+        result_layout.addWidget(self.right_window, 4, 1, alignment=Qt.AlignCenter)
 
         main_layout.addWidget(wrapper, alignment=Qt.AlignHCenter)
 
@@ -186,13 +195,32 @@ class Matching_ui(QMainWindow):
         self.windowsize_label2.setStyleSheet(f"font-size:{int(self.height() * 0.02)}px;")
         self.windowsize_line_edit2.setFixedHeight(int(self.height() * 0.02)+1)
         self.windowsize_line_edit2.setStyleSheet(f"font-size:{int(self.height() * 0.02)}px;")
+        self.matching_btn.setFixedSize(int(self.width() * 0.1), int(self.height() * 0.03))
+        self.matching_btn.setStyleSheet(f"font-size:{int(self.height() * 0.015)}px;")
+        self.output_btn.setFixedSize(int(self.width() * 0.1), int(self.height() * 0.03))
+        self.output_btn.setStyleSheet(f"font-size:{int(self.height() * 0.015)}px;")
 
-        self.result_widget.move(int(self.width()*0.65), int(self.height()*0.65))
-        self.result_widget.setFixedSize(int(self.width()*0.18), int(self.height()*0.32))
+        self.result_widget.move(int(self.width()*0.68), int(self.height()*0.59))
+        self.result_widget.setFixedSize(int(self.width()*0.18), int(self.height()*0.35))
         self.left_window_origin.setFixedSize(int(self.width()*0.06), int(self.width()*0.06))
         self.right_window_origin.setFixedSize(int(self.width()*0.06), int(self.width()*0.06))
         self.left_window.setFixedSize(int(self.width()*0.06), int(self.width()*0.06))
         self.right_window.setFixedSize(int(self.width()*0.06), int(self.width()*0.06))
+        self.left_window_origin_label.setAlignment(Qt.AlignCenter)
+        self.left_window_origin_label.setFixedHeight(int(self.width()*0.02))
+        self.left_window_origin_label.setStyleSheet(f"font-size:{int(self.width()*0.012)}px;")
+        self.right_window_origin_label.setAlignment(Qt.AlignCenter)
+        self.right_window_origin_label.setFixedHeight(int(self.width()*0.02))
+        self.right_window_origin_label.setStyleSheet(f"font-size:{int(self.width()*0.012)}px;")
+        self.left_window_label.setAlignment(Qt.AlignCenter)
+        self.left_window_label.setFixedHeight(int(self.width()*0.02))
+        self.left_window_label.setStyleSheet(f"font-size:{int(self.width()*0.012)}px;")
+        self.right_window_label.setAlignment(Qt.AlignCenter)
+        self.right_window_label.setFixedHeight(int(self.width()*0.02))
+        self.right_window_label.setStyleSheet(f"font-size:{int(self.width()*0.012)}px;")
+
+        self.blankwidget1.setFixedHeight(int(self.width()*0.008))
+        self.blankwidget2.setFixedHeight(int(self.width()*0.008))
 
     def update_label_font(self):
         for label in [self.left_img, self.right_img]:

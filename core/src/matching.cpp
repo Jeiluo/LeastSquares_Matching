@@ -1,4 +1,5 @@
 #include "matching.h"
+#include "Correlation.h"
 
 matching::matching(std::string left_path, //左影像路径
                 std::string right_path //右影像路径
@@ -427,4 +428,21 @@ cv::Mat matching::get_left_window()
 cv::Mat matching::get_right_window()
 {
     return right_window.clone();
+}
+
+void matching::get_matched_points(std::string savepath)
+{
+    CorrelationMatch match;
+    match.Calculate(left_img, right_img);
+    match.saveResult(savepath);
+}
+
+double matching::get_matched_x()
+{
+    return new_rightx;
+}
+
+double matching::get_matched_y()
+{
+    return new_righty;
 }

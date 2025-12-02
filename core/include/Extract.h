@@ -4,10 +4,8 @@
 
 #pragma once
 #include <iostream>
-#include <Windows.h>
-#include <filesystem>
 #include <math.h>
-#include <opencv2/opencv.hpp>
+#include "opencv2/opencv.hpp"
 using namespace cv;
 
 class PointFeature {
