@@ -3,7 +3,7 @@ from PyQt5.QtWidgets import QApplication, QSplashScreen, QFileDialog, QMessageBo
 import sys
 from PyQt5.QtGui import QPixmap
 from PyQt5.QtCore import Qt
-import lsmatching
+from lsmatching import Matching
 
 def show_info(parent, title="提示", message="操作成功"):
     msg_box = QMessageBox(parent)
@@ -25,6 +25,7 @@ class matching_app:
         self.ui.directory_button.clicked.connect(self.set_directory)
         self.ui.left_btn.clicked.connect(self.get_left_image)
         self.ui.right_btn.clicked.connect(self.get_right_image)
+        self.ui.choose_btn.clicked.connect(self.choose_cal)
 
     def set_directory(self):
         folder = QFileDialog.getExistingDirectory(self.ui, "选择工作空间")
@@ -59,6 +60,14 @@ class matching_app:
         if not self.right_img_path:
             return
         self.ui.right_img.set_image(self.right_img_path)
+
+    def choose_cal(self):
+        matching = Matching(self.left_img_path, self.right_img_path)
+        x1, y1 = self.ui.left_img.click_point
+        x2, y2 = self.ui.right_img.click_point
+        matching.set_params(35)
+        matching.set_centers(x1, y1, x2, y2)
+        matching.calculate()
     
     def run(self):
         sys.exit(self.app.exec_())
