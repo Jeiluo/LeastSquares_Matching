@@ -16,3 +16,6 @@ class Matching:
 
     def get_left_window(self) -> np.ndarray:
         return self.matching.get_left_window()
+    
+    def get_right_window(self) -> np.ndarray:
+        return self.matching.get_right_window()

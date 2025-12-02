@@ -71,9 +71,15 @@ class matching_app:
         matching.set_params(35)
         matching.set_centers(x1, y1, x2, y2)
         left_window = matching.get_left_window()
+        right_window = matching.get_right_window()
         matching.calculate()
+        left_window_matched = matching.get_left_window()
+        right_window_matched = matching.get_right_window()
 
         self.ui.left_window_origin.set_image(left_window)
+        self.ui.right_window_origin.set_image(right_window)
+        self.ui.left_window.set_image(left_window_matched)
+        self.ui.right_window.set_image(right_window_matched)
     
     def run(self):
         sys.exit(self.app.exec_())

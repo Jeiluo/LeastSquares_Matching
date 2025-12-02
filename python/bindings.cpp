@@ -55,5 +55,8 @@ PYBIND11_MODULE(_lsmatching, m)
         .def("get_left_window", [](matching &self) {
             return mat_to_numpy(self.get_left_window());
         })
+        .def("get_right_window", [](matching &self) {
+            return mat_to_numpy(self.get_right_window());
+            })
         ;
 }

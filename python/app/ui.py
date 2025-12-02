@@ -136,11 +136,20 @@ class Matching_ui(QMainWindow):
         self.left_window_origin = Window_Label()
         self.right_window_origin_label = QLabel("右窗口原图")
         self.right_window_origin = Window_Label()
+        self.left_window_label = QLabel("左窗口原图")
+        self.left_window = Window_Label()
+        self.right_window_label = QLabel("右窗口纠正图")
+        self.right_window = Window_Label()
 
         result_layout.addWidget(self.left_window_origin_label, 0, 0)
         result_layout.addWidget(self.left_window_origin, 1, 0)
         result_layout.addWidget(self.right_window_origin_label, 0, 1)
         result_layout.addWidget(self.right_window_origin, 1, 1)
+
+        result_layout.addWidget(self.left_window_label, 2, 0)
+        result_layout.addWidget(self.left_window, 3, 0)
+        result_layout.addWidget(self.right_window_label, 2, 1)
+        result_layout.addWidget(self.right_window, 3, 1)
 
         main_layout.addWidget(wrapper, alignment=Qt.AlignHCenter)
 
@@ -178,8 +187,12 @@ class Matching_ui(QMainWindow):
         self.windowsize_line_edit2.setFixedHeight(int(self.height() * 0.02)+1)
         self.windowsize_line_edit2.setStyleSheet(f"font-size:{int(self.height() * 0.02)}px;")
 
-        self.result_widget.move(int(self.width()*0.65), int(self.height()*0.7))
-        self.result_widget.setFixedSize(int(self.width()*0.2), int(self.height()*0.2))
+        self.result_widget.move(int(self.width()*0.65), int(self.height()*0.65))
+        self.result_widget.setFixedSize(int(self.width()*0.18), int(self.height()*0.32))
+        self.left_window_origin.setFixedSize(int(self.width()*0.06), int(self.width()*0.06))
+        self.right_window_origin.setFixedSize(int(self.width()*0.06), int(self.width()*0.06))
+        self.left_window.setFixedSize(int(self.width()*0.06), int(self.width()*0.06))
+        self.right_window.setFixedSize(int(self.width()*0.06), int(self.width()*0.06))
 
     def update_label_font(self):
         for label in [self.left_img, self.right_img]:

@@ -423,3 +423,8 @@ cv::Mat matching::get_left_window()
 {
     return left_window.clone();
 }
+
+cv::Mat matching::get_right_window()
+{
+    return right_window.clone();
+}

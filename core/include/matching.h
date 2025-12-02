@@ -56,5 +56,6 @@ class matching
     void calculate();
     void precision();
     cv::Mat get_left_window();
+    cv::Mat get_right_window();
     void get_result();
 };
